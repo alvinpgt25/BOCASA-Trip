@@ -387,6 +387,114 @@
             box-shadow: var(--shadow);
         }
 
+        /* ===== CONFIRMATION MODAL ===== */
+        .confirm-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10010;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+        }
+
+        .confirm-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .confirm-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .confirm-modal.active .confirm-content {
+            transform: translateY(0);
+        }
+
+        .confirm-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .confirm-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--danger);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .confirm-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .confirm-message {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .confirm-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .confirm-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 100px;
+        }
+
+        .confirm-btn.cancel {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .confirm-btn.cancel:hover, .confirm-btn.cancel:active {
+            background: #e2e8f0;
+        }
+
+        .confirm-btn.confirm {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+        }
+
+        .confirm-btn.confirm:hover, .confirm-btn.confirm:active {
+            background: linear-gradient(135deg, #dc2626, var(--danger));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
         /* ===== MAIN CONTENT ===== */
         .main-content {
             max-width: 1200px;
@@ -955,122 +1063,6 @@
             margin: 0 5px;
         }
 
-        /* ===== UTILITY CLASSES ===== */
-        .completed .activity-time,
-        .completed .activity-name,
-        .completed .activity-details {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
-
-        /* ===== CONFIRMATION MODAL ===== */
-        .confirm-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10010;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            backdrop-filter: blur(5px);
-            padding: 20px;
-        }
-
-        .confirm-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .confirm-content {
-            background: white;
-            border-radius: var(--radius);
-            padding: 30px;
-            max-width: 400px;
-            width: 100%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
-        }
-
-        .confirm-modal.active .confirm-content {
-            transform: translateY(0);
-        }
-
-        .confirm-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--gray-light);
-        }
-
-        .confirm-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--danger);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        .confirm-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .confirm-message {
-            color: var(--gray);
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        .confirm-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-        }
-
-        .confirm-btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            min-width: 100px;
-        }
-
-        .confirm-btn.cancel {
-            background: var(--gray-light);
-            color: var(--dark);
-        }
-
-        .confirm-btn.cancel:hover, .confirm-btn.cancel:active {
-            background: #e2e8f0;
-        }
-
-        .confirm-btn.confirm {
-            background: linear-gradient(135deg, var(--danger), #dc2626);
-            color: white;
-        }
-
-        .confirm-btn.confirm:hover, .confirm-btn.confirm:active {
-            background: linear-gradient(135deg, #dc2626, var(--danger));
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
         /* ===== MOBILE RESPONSIVE ===== */
         @media (max-width: 768px) {
             .floating-controls {
@@ -1097,8 +1089,14 @@
                 font-size: 1.2rem;
             }
             
-            .control-btn .btn-tooltip {
-                display: none;
+            /* Show tooltips on mobile with tap */
+            .control-btn:active .btn-tooltip {
+                opacity: 1;
+                display: block;
+                position: fixed;
+                right: 80px;
+                background: rgba(0, 0, 0, 0.9);
+                z-index: 10002;
             }
             
             .save-indicator {
@@ -1131,6 +1129,11 @@
             .logo {
                 width: 70px;
                 height: 70px;
+            }
+            
+            .logo img {
+                width: 135%;
+                height: 135%;
             }
             
             .title-group h1 {
@@ -1385,7 +1388,7 @@
     </style>
 </head>
 <body>
-    <!-- ENHANCED FLOATING CONTROLS - NOW VISIBLE ON MOBILE -->
+    <!-- FLOATING CONTROLS - ALL FEATURES WORKING ON MOBILE -->
     <div class="floating-controls">
         <div class="floating-ball" id="floatingBall">
             <div class="ball-pulse"></div>
@@ -1799,7 +1802,6 @@
         const appLogo = document.getElementById('appLogo');
         
         // ===== LOGO FALLBACK =====
-        // Jika logo tidak ditemukan, gunakan fallback icon
         appLogo.onerror = function() {
             this.style.display = 'none';
             const logoDiv = this.closest('.logo');
@@ -1812,20 +1814,11 @@
 
         // ===== MOBILE-FRIENDLY DRAG & DROP =====
         function setupMobileDragAndDrop() {
-            // Touch events for mobile
             floatingBall.addEventListener('touchstart', handleTouchStart, { passive: false });
             floatingBall.addEventListener('touchmove', handleTouchMove, { passive: false });
             floatingBall.addEventListener('touchend', handleTouchEnd);
             
-            // Mouse events for desktop
             floatingBall.addEventListener('mousedown', handleMouseDown);
-            
-            // Prevent default touch behaviors
-            floatingBall.addEventListener('touchstart', (e) => {
-                if (e.touches.length === 1) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
         }
 
         let touchStartX = 0;
@@ -1848,7 +1841,6 @@
             floatingBall.style.transition = 'none';
             floatingBall.style.zIndex = '10001';
             
-            // Prevent scrolling while dragging
             e.preventDefault();
         }
 
@@ -1862,7 +1854,6 @@
             let newX = ballStartX + deltaX;
             let newY = ballStartY + deltaY;
             
-            // Boundary checks
             const maxX = window.innerWidth - floatingBall.offsetWidth;
             const maxY = window.innerHeight - floatingBall.offsetHeight;
             
@@ -1914,7 +1905,6 @@
             let newX = ballStartX + deltaX;
             let newY = ballStartY + deltaY;
             
-            // Boundary checks
             const maxX = window.innerWidth - floatingBall.offsetWidth;
             const maxY = window.innerHeight - floatingBall.offsetHeight;
             
@@ -1961,7 +1951,6 @@
                 if (saved) {
                     const { x, y } = JSON.parse(saved);
                     
-                    // Validate position is within screen bounds
                     const maxX = window.innerWidth - floatingBall.offsetWidth;
                     const maxY = window.innerHeight - floatingBall.offsetHeight;
                     
@@ -1979,7 +1968,6 @@
 
         // ===== FLOATING BALL TOGGLE =====
         floatingBall.addEventListener('click', function(e) {
-            // Only toggle if not dragging and it's a simple tap
             if (!isDragging && e.type === 'click') {
                 setTimeout(() => {
                     if (!isDragging) {
@@ -1990,7 +1978,7 @@
             }
         });
 
-        // Close floating buttons when clicking elsewhere
+        // Close buttons when clicking elsewhere
         document.addEventListener('click', function(e) {
             if (!floatingBall.contains(e.target) && !controlButtons.contains(e.target) &&
                 !printModal.contains(e.target) && !confirmModal.contains(e.target)) {
@@ -2034,17 +2022,14 @@
         function doPrint() {
             closePrintModal();
             
-            // Prepare for printing
             const day1Section = document.getElementById('day1-section');
             const day2Section = document.getElementById('day2-section');
             const activities = document.querySelectorAll('.activity-item');
             
-            // Reset attributes
             day1Section.removeAttribute('data-print-hide');
             day2Section.removeAttribute('data-print-hide');
             activities.forEach(activity => activity.removeAttribute('data-print-hide'));
             
-            // Apply filters
             switch (selectedPrintOption) {
                 case 'day1':
                     day2Section.setAttribute('data-print-hide', 'true');
@@ -2061,7 +2046,6 @@
                     break;
             }
             
-            // Add print header
             const printHeader = document.createElement('div');
             printHeader.className = 'print-header-only';
             printHeader.innerHTML = `
@@ -2077,11 +2061,9 @@
             const mainContent = document.querySelector('.main-content');
             mainContent.insertBefore(printHeader, mainContent.firstChild);
             
-            // Trigger print
             setTimeout(() => {
                 window.print();
                 
-                // Cleanup
                 setTimeout(() => {
                     printHeader.remove();
                     day1Section.removeAttribute('data-print-hide');
@@ -2107,7 +2089,6 @@
             isAutoSaving = true;
             saveProgress();
             
-            // Quick indicator for auto-save (shorter duration)
             saveIndicator.classList.add('show');
             setTimeout(() => {
                 saveIndicator.classList.remove('show');
@@ -2166,7 +2147,6 @@
         function resetAll() {
             closeConfirmModal();
             
-            // Reset all checkboxes and state
             completedActivities.clear();
             
             document.querySelectorAll('.activity-check').forEach(checkbox => {
@@ -2174,21 +2154,17 @@
                 checkbox.closest('.activity-item')?.classList.remove('completed');
             });
             
-            // Clear saved progress
             localStorage.removeItem('bocasa_trip_progress');
             
-            // Update UI
             updateProgress();
             updateActivityStatus();
             
-            // Show reset confirmation message
             saveIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Progress Direset!';
             saveIndicator.style.background = 'var(--accent)';
             saveIndicator.classList.add('show');
             
             setTimeout(() => {
                 saveIndicator.classList.remove('show');
-                // Reset indicator style
                 saveIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Progress Disimpan!';
                 saveIndicator.style.background = '';
             }, 2000);
@@ -2210,31 +2186,22 @@
             
             document.getElementById('total-count').textContent = totalActivities;
             
-            // Setup auto-save on various events
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) autoSaveProgress();
             });
             
             window.addEventListener('beforeunload', autoSaveProgress);
             
-            // Adjust ball position on resize
             window.addEventListener('resize', () => {
                 loadBallPosition();
             });
             
-            // iOS specific fixes
+            // Mobile improvements
             if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
                 document.body.style.cursor = 'pointer';
                 document.querySelectorAll('button, .checkmark').forEach(el => {
                     el.style.cursor = 'pointer';
                 });
-                
-                // Prevent elastic scrolling on iOS
-                document.body.addEventListener('touchmove', (e) => {
-                    if (isDragging) {
-                        e.preventDefault();
-                    }
-                }, { passive: false });
             }
         }
 
@@ -2251,7 +2218,6 @@
                 createActivityHTML(activity, index, 2)
             ).join('');
             
-            // Attach event listeners to checkboxes
             document.querySelectorAll('.activity-check').forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
                     toggleActivity(this.dataset.id);
@@ -2327,7 +2293,6 @@
             const completedCount = completedActivities.size;
             const progressPercent = Math.round((completedCount / totalActivities) * 100);
             
-            // Update DOM elements
             const elements = {
                 'completed-count': completedCount,
                 'progress-percent': `${progressPercent}%`,
@@ -2339,13 +2304,11 @@
                 if (el) el.textContent = value;
             });
             
-            // Update progress bar
             const progressFill = document.getElementById('progress-fill');
             if (progressFill) {
                 progressFill.style.width = `${progressPercent}%`;
             }
             
-            // Update labels
             const completedText = document.getElementById('completed-text');
             const remainingText = document.getElementById('remaining-text');
             if (completedText && remainingText) {
@@ -2375,14 +2338,12 @@
                 activityEl.classList.remove('active-now', 'upcoming');
                 statusEl.className = 'status-indicator';
                 
-                // Parse activity time
                 const timeMatch = activity.time.match(/(\d{1,2}):(\d{2})/g);
                 if (!timeMatch) return;
                 
                 const startTime = parseTime(timeMatch[0]);
                 const endTime = timeMatch[1] ? parseTime(timeMatch[1]) : startTime + 60;
                 
-                // Update status
                 if (checkbox.checked) {
                     statusEl.classList.add('status-completed');
                 } else if (isToday && currentTime >= startTime && currentTime < endTime) {
