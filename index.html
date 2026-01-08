@@ -60,152 +60,215 @@
             padding-bottom: var(--safe-bottom);
         }
 
-        /* ===== ENHANCED FLOATING CONTROLS - FIXED FOR MOBILE ===== */
-        .floating-controls {
-            position: fixed;
-            bottom: max(30px, var(--safe-bottom));
-            right: 30px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 15px;
+        /* ===== HEADER MENU CONTROLS - FIXED POSITION ===== */
+       .main-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 24px 20px;
+    color: white;
+    box-shadow: var(--shadow);
+
+    /* ubah ini */
+    border-radius: 0;
+    margin-bottom: 0;
+
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite linear;
         }
 
-        .floating-ball {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-title {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.6rem;
-            cursor: move;
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
-            user-select: none;
-            border: 3px solid white;
-            touch-action: none;
-            position: fixed;
-            z-index: 10000;
-            will-change: transform;
-            /* Default position */
-            right: 30px;
-            bottom: max(30px, var(--safe-bottom));
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .floating-ball:hover, .floating-ball:active {
-            transform: scale(1.1);
-            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.4);
-        }
-
-        .floating-ball.active {
-            transform: rotate(45deg) scale(1.1);
-            background: linear-gradient(135deg, var(--accent), #f97316);
-        }
-
-        .floating-ball .ball-pulse {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
             border-radius: 50%;
-            background: inherit;
-            animation: pulseRing 2s infinite;
-            z-index: -1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
         }
 
-        @keyframes pulseRing {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.5); opacity: 0; }
+        .logo img {
+            width: 135%;
+            height: 135%;
+            object-fit: contain;
+            padding: 10px;
         }
 
-        .control-buttons {
+        .title-group h1 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1.2;
+        }
+
+        .title-group p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .date-display {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 15px;
+        }
+
+        /* ===== HEADER CONTROLS (Tetap di kanan atas) ===== */
+        .header-controls {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .hamburger-menu {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .hamburger-menu:hover, .hamburger-menu:active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .hamburger-menu.active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(45deg);
+        }
+
+        .control-menu {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
+            min-width: 200px;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(-10px);
             pointer-events: none;
             transition: var(--transition);
-            position: fixed;
-            right: 30px;
-            bottom: calc(max(30px, var(--safe-bottom)) + 90px);
-            z-index: 9998;
+            z-index: 101;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .control-buttons.active {
+        .control-menu.active {
             opacity: 1;
             transform: translateY(0);
             pointer-events: all;
         }
 
-        .control-btn {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            border: none;
-            color: white;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
+        .control-menu-btn {
             display: flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            animation: floatUp 0.3s ease forwards;
-            opacity: 0;
-            touch-action: manipulation;
-        }
-
-        @keyframes floatUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .control-btn:nth-child(1) { animation-delay: 0.1s; }
-        .control-btn:nth-child(2) { animation-delay: 0.2s; }
-        .control-btn:nth-child(3) { animation-delay: 0.3s; }
-
-        .control-btn.reset { 
-            background: linear-gradient(135deg, #ef4444, #dc2626); 
-        }
-        .control-btn.save { 
-            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark)); 
-        }
-        .control-btn.print { 
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed); 
-        }
-
-        .control-btn:hover, .control-btn:active {
-            transform: scale(1.15) translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .control-btn .btn-tooltip {
-            position: absolute;
-            right: 65px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.85);
-            color: white;
-            padding: 8px 15px;
+            gap: 12px;
+            padding: 12px 18px;
+            border: none;
             border-radius: var(--radius-sm);
-            font-size: 0.85rem;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-            z-index: 10001;
+            background: transparent;
+            color: var(--dark);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            width: 100%;
         }
 
-        .control-btn:hover .btn-tooltip { opacity: 1; }
+        .control-menu-btn:hover, .control-menu-btn:active {
+            background: var(--primary-light);
+            color: var(--primary);
+            transform: translateX(-5px);
+        }
+
+        .control-menu-btn.reset {
+            color: var(--danger);
+        }
+
+        .control-menu-btn.reset:hover, .control-menu-btn.reset:active {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .control-menu-btn.print {
+            color: #8b5cf6;
+        }
+
+        .control-menu-btn.print:hover, .control-menu-btn.print:active {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+
+        .control-menu-btn i {
+            width: 20px;
+            font-size: 1.1rem;
+        }
 
         /* ===== AUTO-SAVE INDICATOR ===== */
         .save-indicator {
             position: fixed;
-            bottom: calc(max(30px, var(--safe-bottom)) + 120px);
+            top: 100px;
             right: 30px;
             background: var(--secondary);
             color: white;
@@ -218,9 +281,9 @@
             align-items: center;
             gap: 8px;
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(-10px);
             transition: var(--transition);
-            z-index: 9997;
+            z-index: 99;
             pointer-events: none;
         }
 
@@ -499,104 +562,13 @@
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 30px 20px 150px;
+            padding: 30px 20px 100px;
             animation: fadeIn 0.5s ease;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ===== HEADER ===== */
-        .main-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 40px 30px;
-            border-radius: var(--radius);
-            color: white;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .main-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            right: -50%;
-            bottom: -50%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shine 3s infinite linear;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .logo-title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-
-        .logo img {
-            width: 135%;
-            height: 135%;
-            object-fit: contain;
-            padding: 10px;
-        }
-
-        .title-group h1 {
-            font-family: 'Nunito', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: white;
-            line-height: 1.2;
-        }
-
-        .title-group p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-            margin-top: 10px;
-        }
-
-        .date-display {
-            display: inline-flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-top: 15px;
         }
 
         /* ===== STATS BAR ===== */
@@ -1063,243 +1035,178 @@
             margin: 0 5px;
         }
 
-        /* ===== MOBILE RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .floating-controls {
-                bottom: max(20px, var(--safe-bottom));
-                right: 20px;
+        .main-footer a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
             }
             
-            .floating-ball {
-                width: 60px;
-                height: 60px;
-                font-size: 1.4rem;
-                right: 20px;
-                bottom: max(20px, var(--safe-bottom));
-            }
-            
-            .control-buttons {
-                right: 20px;
-                bottom: calc(max(20px, var(--safe-bottom)) + 80px);
-            }
-            
-            .control-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-            
-            /* Show tooltips on mobile with tap */
-            .control-btn:active .btn-tooltip {
-                opacity: 1;
-                display: block;
-                position: fixed;
-                right: 80px;
-                background: rgba(0, 0, 0, 0.9);
-                z-index: 10002;
-            }
-            
-            .save-indicator {
-                bottom: calc(max(20px, var(--safe-bottom)) + 110px);
-                right: 20px;
-                font-size: 0.8rem;
-                padding: 8px 12px;
-                max-width: calc(100vw - 100px);
-                word-break: break-word;
-                white-space: normal;
-                text-align: center;
-            }
-            
-            .main-content {
-                padding: 20px 15px 120px;
-            }
-            
-            .main-header {
-                padding: 30px 20px;
-                border-radius: 0;
-                margin: -20px -15px 20px;
-            }
-            
-            .logo-title {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            
-            .logo {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .logo img {
-                width: 135%;
-                height: 135%;
-            }
-            
-            .title-group h1 {
-                font-size: 2rem;
-            }
-            
-            .stats-bar {
-                grid-template-columns: 1fr;
-                gap: 15px;
-                padding: 20px;
-            }
-            
-            .destinations-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .activity-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-                min-height: auto;
-                padding: 20px;
-            }
-            
-            .check-container {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                margin: 0;
-            }
-            
-            .activity-icon {
-                display: none;
-            }
-            
-            .activity-content {
-                width: 100%;
-                padding-right: 50px;
-            }
-            
-            .status-indicator {
-                top: 55px;
-                right: 50px;
-            }
-            
-            .notes-list {
-                grid-template-columns: 1fr;
-            }
-            
-            .print-content, .confirm-content {
-                padding: 20px;
-            }
-            
-            .print-actions, .confirm-actions {
-                flex-direction: column;
-            }
-            
-            .action-btn, .confirm-btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
+        /* ===== HEADER CONTROLS (Tetap di kanan atas tapi lebih baik) ===== */
+.header-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 100;
+}
 
-        @media (max-width: 480px) {
-            .floating-controls {
-                bottom: max(15px, var(--safe-bottom));
-                right: 15px;
-            }
-            
-            .floating-ball {
-                width: 55px;
-                height: 55px;
-                font-size: 1.3rem;
-                right: 15px;
-                bottom: max(15px, var(--safe-bottom));
-            }
-            
-            .control-buttons {
-                right: 15px;
-                bottom: calc(max(15px, var(--safe-bottom)) + 75px);
-            }
-            
-            .control-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.1rem;
-            }
-            
-            .save-indicator {
-                bottom: calc(max(15px, var(--safe-bottom)) + 100px);
-                right: 15px;
-                font-size: 0.75rem;
-                padding: 6px 10px;
-            }
-            
-            .main-header {
-                padding: 25px 15px;
-            }
-            
-            .title-group h1 {
-                font-size: 1.8rem;
-            }
-            
-            .date-display {
-                padding: 12px 20px;
-                font-size: 1rem;
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .stat-number {
-                font-size: 2rem;
-            }
-            
-            .day-header {
-                padding: 20px;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .day-title {
-                font-size: 1.4rem;
-            }
-            
-            .activity-item {
-                padding: 15px;
-            }
-            
-            .activity-time {
-                font-size: 1.2rem;
-            }
-            
-            .activity-name {
-                font-size: 1.2rem;
-            }
-            
-            .activity-details {
-                font-size: 0.95rem;
-            }
-            
-            .notes-section {
-                padding: 25px 20px;
-                margin-left: -15px;
-                margin-right: -15px;
-                border-radius: 0;
-            }
-        }
+.hamburger-menu {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
 
-        @media (max-width: 360px) {
-            .floating-ball {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-            
-            .control-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-            
-            .title-group h1 {
-                font-size: 1.6rem;
-            }
-        }
+.hamburger-menu:hover, .hamburger-menu:active {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.hamburger-menu.active {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(45deg);
+}
+
+.control-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 200px;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: var(--transition);
+    z-index: 101;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.control-menu.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.control-menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--dark);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+    width: 100%;
+}
+
+.control-menu-btn:hover, .control-menu-btn:active {
+    background: var(--primary-light);
+    color: var(--primary);
+    transform: translateX(-5px);
+}
+
+.control-menu-btn.reset {
+    color: var(--danger);
+}
+
+.control-menu-btn.reset:hover, .control-menu-btn.reset:active {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.control-menu-btn.print {
+    color: #8b5cf6;
+}
+
+.control-menu-btn.print:hover, .control-menu-btn.print:active {
+    background: rgba(139, 92, 246, 0.1);
+    color: #8b5cf6;
+}
+
+.control-menu-btn i {
+    width: 20px;
+    font-size: 1.1rem;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .header-controls {
+        top: 15px;
+        right: 15px;
+    }
+    
+    .hamburger-menu {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    .control-menu {
+        top: 55px;
+        right: 0;
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-controls {
+        top: 12px;
+        right: 12px;
+    }
+    
+    .hamburger-menu {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .control-menu {
+        top: 50px;
+        right: 0;
+        min-width: 160px;
+    }
+}
+
+@media (max-width: 360px) {
+    .header-controls {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .hamburger-menu {
+        width: 38px;
+        height: 38px;
+        font-size: 1.1rem;
+    }
+    
+    .control-menu {
+        min-width: 150px;
+    }
+}
 
         /* ===== PRINT STYLES ===== */
         @media print {
@@ -1312,7 +1219,7 @@
                 visibility: visible;
             }
             
-            .floating-controls,
+            .header-controls,
             .save-indicator,
             .print-modal,
             .confirm-modal {
@@ -1356,9 +1263,7 @@
             
             .checkmark,
             .status-indicator,
-            .activity-icon,
-            .floating-ball,
-            .control-buttons {
+            .activity-icon {
                 display: none !important;
             }
             
@@ -1388,30 +1293,47 @@
     </style>
 </head>
 <body>
-    <!-- FLOATING CONTROLS - ALL FEATURES WORKING ON MOBILE -->
-    <div class="floating-controls">
-        <div class="floating-ball" id="floatingBall">
-            <div class="ball-pulse"></div>
-            <i class="fas fa-bars"></i>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo-title">
+                <div class="logo">
+                    <!-- Logo BT.png -->
+                    <img src="bt.png" alt="BOCASA Trip Logo" id="appLogo">
+                </div>
+                <div class="title-group">
+                    <h1>BOCASA Trip</h1>
+                    <p>Bogor – Curug – Saat | 10-11 Januari 2025</p>
+                </div>
+            </div>
+            <div class="date-display">
+                <i class="far fa-calendar"></i>
+                <span>10 - 11 Januari 2025</span>
+            </div>
         </div>
-        <div class="control-buttons" id="controlButtons">
-            <button class="control-btn reset" onclick="showResetConfirm()">
-                <i class="fas fa-redo"></i>
-                <span class="btn-tooltip">Reset Semua</span>
-            </button>
-            <button class="control-btn save" onclick="manualSave()">
-                <i class="fas fa-save"></i>
-                <span class="btn-tooltip">Simpan Progress</span>
-            </button>
-            <button class="control-btn print" onclick="showPrintModal()">
-                <i class="fas fa-print"></i>
-                <span class="btn-tooltip">Cetak Laporan</span>
-            </button>
+        
+        <!-- HEADER CONTROLS (Tetap di kanan atas) -->
+        <div class="header-controls">
+            <div class="hamburger-menu" id="hamburgerMenu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="control-menu" id="controlMenu">
+                <button class="control-menu-btn reset" onclick="showResetConfirm()">
+                    <i class="fas fa-redo"></i>
+                    <span>Reset Semua</span>
+                </button>
+                <button class="control-menu-btn print" onclick="showPrintModal()">
+                    <i class="fas fa-print"></i>
+                    <span>Cetak Laporan</span>
+                </button>
+            </div>
         </div>
-        <div class="save-indicator" id="saveIndicator">
-            <i class="fas fa-check-circle"></i>
-            <span>Progress Disimpan!</span>
-        </div>
+    </header>
+
+    <!-- AUTO-SAVE INDICATOR -->
+    <div class="save-indicator" id="saveIndicator">
+        <i class="fas fa-check-circle"></i>
+        <span>Progress Disimpan!</span>
     </div>
 
     <!-- PRINT MODAL -->
@@ -1493,26 +1415,6 @@
 
     <!-- MAIN CONTENT -->
     <div class="main-content">
-        <!-- HEADER -->
-        <header class="main-header">
-            <div class="header-content">
-                <div class="logo-title">
-                    <div class="logo">
-                        <!-- Logo BT.png -->
-                        <img src="bt.png" alt="BOCASA Trip Logo" id="appLogo">
-                    </div>
-                    <div class="title-group">
-                        <h1>BOCASA Trip</h1>
-                        <p>Bogor – Curug – Saat | 10-11 Januari 2025</p>
-                    </div>
-                </div>
-                <div class="date-display">
-                    <i class="far fa-calendar"></i>
-                    <span>10 - 11 Januari 2025</span>
-                </div>
-            </div>
-        </header>
-
         <!-- STATS BAR -->
         <div class="stats-bar">
             <div class="stat-item">
@@ -1791,11 +1693,10 @@
         let selectedPrintOption = 'all';
         let autoSaveTimer = null;
         let isAutoSaving = false;
-        let isDragging = false;
 
         // ===== DOM ELEMENTS =====
-        const floatingBall = document.getElementById('floatingBall');
-        const controlButtons = document.getElementById('controlButtons');
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const controlMenu = document.getElementById('controlMenu');
         const saveIndicator = document.getElementById('saveIndicator');
         const printModal = document.getElementById('printModal');
         const confirmModal = document.getElementById('confirmModal');
@@ -1812,184 +1713,25 @@
             logoDiv.appendChild(fallbackIcon);
         };
 
-        // ===== MOBILE-FRIENDLY DRAG & DROP =====
-        function setupMobileDragAndDrop() {
-            floatingBall.addEventListener('touchstart', handleTouchStart, { passive: false });
-            floatingBall.addEventListener('touchmove', handleTouchMove, { passive: false });
-            floatingBall.addEventListener('touchend', handleTouchEnd);
-            
-            floatingBall.addEventListener('mousedown', handleMouseDown);
-        }
-
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let ballStartX = 0;
-        let ballStartY = 0;
-
-        function handleTouchStart(e) {
-            if (e.touches.length !== 1) return;
-            
-            const touch = e.touches[0];
-            touchStartX = touch.clientX;
-            touchStartY = touch.clientY;
-            
-            const rect = floatingBall.getBoundingClientRect();
-            ballStartX = rect.left;
-            ballStartY = rect.top;
-            
-            isDragging = true;
-            floatingBall.style.transition = 'none';
-            floatingBall.style.zIndex = '10001';
-            
-            e.preventDefault();
-        }
-
-        function handleTouchMove(e) {
-            if (!isDragging || e.touches.length !== 1) return;
-            
-            const touch = e.touches[0];
-            const deltaX = touch.clientX - touchStartX;
-            const deltaY = touch.clientY - touchStartY;
-            
-            let newX = ballStartX + deltaX;
-            let newY = ballStartY + deltaY;
-            
-            const maxX = window.innerWidth - floatingBall.offsetWidth;
-            const maxY = window.innerHeight - floatingBall.offsetHeight;
-            
-            newX = Math.max(10, Math.min(newX, maxX - 10));
-            newY = Math.max(10, Math.min(newY, maxY - 10));
-            
-            floatingBall.style.left = `${newX}px`;
-            floatingBall.style.top = `${newY}px`;
-            floatingBall.style.transform = 'translate3d(0, 0, 0) rotate(45deg)';
-            
-            e.preventDefault();
-        }
-
-        function handleTouchEnd() {
-            if (!isDragging) return;
-            
-            isDragging = false;
-            floatingBall.style.transition = 'var(--transition)';
-            floatingBall.style.transform = 'translate3d(0, 0, 0)';
-            floatingBall.style.zIndex = '10000';
-            
-            saveBallPosition();
-            debouncedAutoSave();
-        }
-
-        function handleMouseDown(e) {
-            touchStartX = e.clientX;
-            touchStartY = e.clientY;
-            
-            const rect = floatingBall.getBoundingClientRect();
-            ballStartX = rect.left;
-            ballStartY = rect.top;
-            
-            isDragging = true;
-            floatingBall.style.transition = 'none';
-            
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
-            
-            e.preventDefault();
-        }
-
-        function handleMouseMove(e) {
-            if (!isDragging) return;
-            
-            const deltaX = e.clientX - touchStartX;
-            const deltaY = e.clientY - touchStartY;
-            
-            let newX = ballStartX + deltaX;
-            let newY = ballStartY + deltaY;
-            
-            const maxX = window.innerWidth - floatingBall.offsetWidth;
-            const maxY = window.innerHeight - floatingBall.offsetHeight;
-            
-            newX = Math.max(10, Math.min(newX, maxX - 10));
-            newY = Math.max(10, Math.min(newY, maxY - 10));
-            
-            floatingBall.style.left = `${newX}px`;
-            floatingBall.style.top = `${newY}px`;
-            floatingBall.style.transform = 'translate3d(0, 0, 0) rotate(45deg)';
-        }
-
-        function handleMouseUp() {
-            if (!isDragging) return;
-            
-            isDragging = false;
-            floatingBall.style.transition = 'var(--transition)';
-            floatingBall.style.transform = 'translate3d(0, 0, 0)';
-            
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-            
-            saveBallPosition();
-            debouncedAutoSave();
-        }
-
-        function saveBallPosition() {
-            const rect = floatingBall.getBoundingClientRect();
-            const position = {
-                x: rect.left,
-                y: rect.top,
-                timestamp: Date.now()
-            };
-            
-            try {
-                localStorage.setItem('bocasa_ball_position', JSON.stringify(position));
-            } catch (e) {
-                console.error('Error saving ball position:', e);
-            }
-        }
-
-        function loadBallPosition() {
-            try {
-                const saved = localStorage.getItem('bocasa_ball_position');
-                if (saved) {
-                    const { x, y } = JSON.parse(saved);
-                    
-                    const maxX = window.innerWidth - floatingBall.offsetWidth;
-                    const maxY = window.innerHeight - floatingBall.offsetHeight;
-                    
-                    const validX = Math.max(10, Math.min(x, maxX - 10));
-                    const validY = Math.max(10, Math.min(y, maxY - 10));
-                    
-                    floatingBall.style.left = `${validX}px`;
-                    floatingBall.style.top = `${validY}px`;
-                    floatingBall.style.position = 'fixed';
-                }
-            } catch (e) {
-                console.error('Error loading ball position:', e);
-            }
-        }
-
-        // ===== FLOATING BALL TOGGLE =====
-        floatingBall.addEventListener('click', function(e) {
-            if (!isDragging && e.type === 'click') {
-                setTimeout(() => {
-                    if (!isDragging) {
-                        floatingBall.classList.toggle('active');
-                        controlButtons.classList.toggle('active');
-                    }
-                }, 100);
-            }
+        // ===== HAMBURGER MENU TOGGLE =====
+        hamburgerMenu.addEventListener('click', function(e) {
+            hamburgerMenu.classList.toggle('active');
+            controlMenu.classList.toggle('active');
+            e.stopPropagation();
         });
 
-        // Close buttons when clicking elsewhere
+        // Close menu when clicking elsewhere
         document.addEventListener('click', function(e) {
-            if (!floatingBall.contains(e.target) && !controlButtons.contains(e.target) &&
+            if (!hamburgerMenu.contains(e.target) && !controlMenu.contains(e.target) &&
                 !printModal.contains(e.target) && !confirmModal.contains(e.target)) {
-                floatingBall.classList.remove('active');
-                controlButtons.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+                controlMenu.classList.remove('active');
             }
         });
 
         // ===== MODAL FUNCTIONS =====
         function showPrintModal() {
-            closeFloatingButtons();
+            closeMenu();
             printModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -2000,7 +1742,7 @@
         }
 
         function showResetConfirm() {
-            closeFloatingButtons();
+            closeMenu();
             confirmModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -2016,6 +1758,11 @@
             });
             element.classList.add('active');
             selectedPrintOption = option;
+        }
+
+        function closeMenu() {
+            hamburgerMenu.classList.remove('active');
+            controlMenu.classList.remove('active');
         }
 
         // ===== PRINT FUNCTION =====
@@ -2096,15 +1843,6 @@
             }, 500);
         }
 
-        function manualSave() {
-            saveProgress();
-            saveIndicator.classList.add('show');
-            setTimeout(() => {
-                saveIndicator.classList.remove('show');
-            }, 2000);
-            closeFloatingButtons();
-        }
-
         function saveProgress() {
             const progress = {
                 completed: Array.from(completedActivities),
@@ -2174,8 +1912,6 @@
         function initApp() {
             renderSchedule();
             loadProgress();
-            loadBallPosition();
-            setupMobileDragAndDrop();
             
             updateCurrentTime();
             setInterval(updateCurrentTime, 1000);
@@ -2191,18 +1927,6 @@
             });
             
             window.addEventListener('beforeunload', autoSaveProgress);
-            
-            window.addEventListener('resize', () => {
-                loadBallPosition();
-            });
-            
-            // Mobile improvements
-            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-                document.body.style.cursor = 'pointer';
-                document.querySelectorAll('button, .checkmark').forEach(el => {
-                    el.style.cursor = 'pointer';
-                });
-            }
         }
 
         // ===== SCHEDULE RENDERING =====
@@ -2382,12 +2106,6 @@
             if (currentTimeEl) {
                 currentTimeEl.innerHTML = timeString;
             }
-        }
-
-        // ===== UTILITY FUNCTIONS =====
-        function closeFloatingButtons() {
-            floatingBall.classList.remove('active');
-            controlButtons.classList.remove('active');
         }
 
         // ===== INITIALIZE ON LOAD =====
