@@ -2,14 +2,17 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📋 Jadwal Tour Bogor - Telaga Saat & Curug Batu Cisereun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#3b82f6">
+    <title>🚀 BOCASA Trip - Jadwal Tour Bogor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Nunito:wght@800;900&display=swap" rel="stylesheet">
     <style>
-        /* ===== VARIABLES ===== */
+        /* ===== VARIABLES & RESET ===== */
         :root {
             --primary: #3b82f6;
             --primary-dark: #2563eb;
@@ -17,9 +20,7 @@
             --secondary: #10b981;
             --secondary-dark: #059669;
             --accent: #f59e0b;
-            --accent-light: #fef3c7;
             --danger: #ef4444;
-            --success: #10b981;
             --light: #f8fafc;
             --dark: #1e293b;
             --gray: #64748b;
@@ -29,41 +30,46 @@
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
-        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         html {
             scroll-behavior: smooth;
             height: 100%;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Poppins', sans-serif;
             background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
             color: var(--dark);
             line-height: 1.6;
             min-height: 100vh;
             padding: 0;
-            position: relative;
             overflow-x: hidden;
+            touch-action: manipulation;
+            padding-top: var(--safe-top);
+            padding-bottom: var(--safe-bottom);
         }
 
-        /* ===== FLOATING BALL CONTROLS ===== */
+        /* ===== ENHANCED FLOATING CONTROLS - FIXED FOR MOBILE ===== */
         .floating-controls {
             position: fixed;
-            bottom: 30px;
+            bottom: max(30px, var(--safe-bottom));
             right: 30px;
             z-index: 9999;
             display: flex;
             flex-direction: column;
+            align-items: flex-end;
             gap: 15px;
-            align-items: center;
         }
 
         .floating-ball {
@@ -80,12 +86,17 @@
             box-shadow: var(--shadow-lg);
             transition: var(--transition);
             user-select: none;
-            position: relative;
-            z-index: 10000;
             border: 3px solid white;
+            touch-action: none;
+            position: fixed;
+            z-index: 10000;
+            will-change: transform;
+            /* Default position */
+            right: 30px;
+            bottom: max(30px, var(--safe-bottom));
         }
 
-        .floating-ball:hover {
+        .floating-ball:hover, .floating-ball:active {
             transform: scale(1.1);
             box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.4);
         }
@@ -93,6 +104,21 @@
         .floating-ball.active {
             transform: rotate(45deg) scale(1.1);
             background: linear-gradient(135deg, var(--accent), #f97316);
+        }
+
+        .floating-ball .ball-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: inherit;
+            animation: pulseRing 2s infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.5); opacity: 0; }
         }
 
         .control-buttons {
@@ -103,6 +129,10 @@
             transform: translateY(20px);
             pointer-events: none;
             transition: var(--transition);
+            position: fixed;
+            right: 30px;
+            bottom: calc(max(30px, var(--safe-bottom)) + 90px);
+            z-index: 9998;
         }
 
         .control-buttons.active {
@@ -126,36 +156,23 @@
             justify-content: center;
             position: relative;
             animation: floatUp 0.3s ease forwards;
+            opacity: 0;
+            touch-action: manipulation;
+        }
+
+        @keyframes floatUp {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .control-btn:nth-child(1) { animation-delay: 0.1s; }
         .control-btn:nth-child(2) { animation-delay: 0.2s; }
         .control-btn:nth-child(3) { animation-delay: 0.3s; }
 
-        @keyframes floatUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .control-btn.reset { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .control-btn.save { background: linear-gradient(135deg, var(--secondary), var(--secondary-dark)); }
+        .control-btn.print { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
 
-        .control-btn.reset {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-
-        .control-btn.save {
-            background: linear-gradient(135deg, var(--success), var(--secondary-dark));
-        }
-
-        .control-btn.print {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-        }
-
-        .control-btn:hover {
+        .control-btn:hover, .control-btn:active {
             transform: scale(1.15) translateY(-5px);
             box-shadow: var(--shadow-lg);
         }
@@ -177,8 +194,33 @@
             z-index: 10001;
         }
 
-        .control-btn:hover .btn-tooltip {
+        .control-btn:hover .btn-tooltip { opacity: 1; }
+
+        /* ===== AUTO-SAVE INDICATOR ===== */
+        .save-indicator {
+            position: fixed;
+            bottom: calc(max(30px, var(--safe-bottom)) + 120px);
+            right: 30px;
+            background: var(--secondary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            z-index: 9997;
+            pointer-events: none;
+        }
+
+        .save-indicator.show {
             opacity: 1;
+            transform: translateY(0);
         }
 
         /* ===== PRINT MODAL ===== */
@@ -197,6 +239,8 @@
             visibility: hidden;
             transition: var(--transition);
             backdrop-filter: blur(5px);
+            padding: 20px;
+            padding-top: max(20px, var(--safe-top));
         }
 
         .print-modal.active {
@@ -209,10 +253,13 @@
             border-radius: var(--radius);
             padding: 30px;
             max-width: 500px;
-            width: 90%;
+            width: 100%;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             transform: translateY(-20px);
             transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .print-modal.active .print-content {
@@ -250,9 +297,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            touch-action: manipulation;
         }
 
-        .close-print:hover {
+        .close-print:hover, .close-print:active {
             background: var(--gray-light);
             color: var(--dark);
         }
@@ -274,9 +322,11 @@
             cursor: pointer;
             transition: var(--transition);
             border: 2px solid transparent;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            user-select: none;
         }
 
-        .print-option:hover {
+        .print-option:hover, .print-option:active {
             background: var(--primary-light);
             border-color: var(--primary);
         }
@@ -286,26 +336,11 @@
             border-color: var(--primary);
         }
 
-        .print-option i {
-            font-size: 1.3rem;
-            color: var(--primary);
-            width: 30px;
-        }
+        .print-option i { font-size: 1.3rem; color: var(--primary); width: 30px; }
 
-        .print-option .option-text {
-            flex: 1;
-        }
-
-        .print-option .option-title {
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 5px;
-        }
-
-        .print-option .option-desc {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
+        .print-option .option-text { flex: 1; }
+        .print-option .option-title { font-weight: 600; color: var(--dark); margin-bottom: 5px; }
+        .print-option .option-desc { font-size: 0.85rem; color: var(--gray); }
 
         .print-actions {
             display: flex;
@@ -323,6 +358,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            touch-action: manipulation;
         }
 
         .action-btn.cancel {
@@ -330,7 +366,7 @@
             color: var(--dark);
         }
 
-        .action-btn.cancel:hover {
+        .action-btn.cancel:hover, .action-btn.cancel:active {
             background: #e2e8f0;
         }
 
@@ -339,7 +375,7 @@
             color: white;
         }
 
-        .action-btn.print-now:hover {
+        .action-btn.print-now:hover, .action-btn.print-now:active {
             background: linear-gradient(135deg, var(--primary-dark), var(--primary));
             transform: translateY(-2px);
             box-shadow: var(--shadow);
@@ -349,7 +385,13 @@
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 30px 20px 100px;
+            padding: 30px 20px 150px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ===== HEADER ===== */
@@ -406,10 +448,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .logo i {
-            font-size: 2.5rem;
-            color: var(--primary);
-        }
+        .logo i { font-size: 2.5rem; color: var(--primary); }
 
         .title-group h1 {
             font-family: 'Nunito', sans-serif;
@@ -483,7 +522,7 @@
 
         /* ===== CURRENT TIME ===== */
         .current-time-container {
-            background: linear-gradient(135deg, var(--success), var(--secondary-dark));
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
             padding: 20px;
             border-radius: var(--radius);
             color: white;
@@ -499,6 +538,7 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         /* ===== DESTINATION CARDS ===== */
@@ -527,6 +567,7 @@
             width: 100%;
             height: 220px;
             object-fit: cover;
+            background: var(--gray-light);
         }
 
         .destination-info {
@@ -574,6 +615,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .progress-title {
@@ -610,6 +653,8 @@
             font-size: 1rem;
             color: var(--gray);
             font-weight: 500;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         /* ===== SCHEDULE CONTAINER ===== */
@@ -632,6 +677,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .day-title {
@@ -640,6 +687,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .day-date {
@@ -663,6 +711,8 @@
             transition: var(--transition);
             position: relative;
             min-height: 120px;
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
         }
 
         .activity-item:last-child {
@@ -690,7 +740,10 @@
         }
 
         .activity-check {
-            display: none;
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
 
         .checkmark {
@@ -704,11 +757,13 @@
             cursor: pointer;
             transition: var(--transition);
             background: white;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
         }
 
         .activity-check:checked + .checkmark {
-            background: var(--success);
-            border-color: var(--success);
+            background: var(--secondary);
+            border-color: var(--secondary);
+            animation: checkPulse 0.5s ease;
         }
 
         .activity-check:checked + .checkmark::after {
@@ -716,6 +771,12 @@
             color: white;
             font-weight: bold;
             font-size: 1.2rem;
+        }
+
+        @keyframes checkPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
 
         /* Activity Content */
@@ -732,6 +793,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .activity-name {
@@ -790,6 +852,35 @@
             flex-shrink: 0;
             color: var(--primary);
             font-size: 1.5rem;
+        }
+
+        /* ===== STATUS INDICATORS ===== */
+        .status-indicator {
+            position: absolute;
+            top: 25px;
+            right: 100px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-now {
+            background: var(--primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-upcoming { background: var(--gray); }
+        .status-completed { background: var(--secondary); }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ===== NOTES SECTION ===== */
@@ -852,52 +943,18 @@
             margin: 0 5px;
         }
 
-        /* ===== STATUS INDICATORS ===== */
-        .status-indicator {
-            position: absolute;
-            top: 25px;
-            right: 100px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .status-now {
-            background: var(--primary);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
-            animation: pulse 1.5s infinite;
-        }
-
-        .status-upcoming {
-            background: var(--gray);
-        }
-
-        .status-completed {
-            background: var(--success);
-        }
-
-        /* ===== ANIMATIONS ===== */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .activity-item {
-            animation: slideIn 0.5s ease forwards;
-            animation-delay: calc(var(--item-index) * 0.05s);
-            opacity: 0;
+        /* ===== UTILITY CLASSES ===== */
+        .completed .activity-time,
+        .completed .activity-name,
+        .completed .activity-details {
+            text-decoration: line-through;
+            opacity: 0.6;
         }
 
         /* ===== MOBILE RESPONSIVE ===== */
         @media (max-width: 768px) {
             .floating-controls {
-                bottom: 20px;
+                bottom: max(20px, var(--safe-bottom));
                 right: 20px;
             }
             
@@ -905,6 +962,13 @@
                 width: 60px;
                 height: 60px;
                 font-size: 1.4rem;
+                right: 20px;
+                bottom: max(20px, var(--safe-bottom));
+            }
+            
+            .control-buttons {
+                right: 20px;
+                bottom: calc(max(20px, var(--safe-bottom)) + 80px);
             }
             
             .control-btn {
@@ -917,12 +981,25 @@
                 display: none;
             }
             
+            .save-indicator {
+                bottom: calc(max(20px, var(--safe-bottom)) + 110px);
+                right: 20px;
+                font-size: 0.8rem;
+                padding: 8px 12px;
+                max-width: calc(100vw - 100px);
+                word-break: break-word;
+                white-space: normal;
+                text-align: center;
+            }
+            
             .main-content {
-                padding: 20px 15px 80px;
+                padding: 20px 15px 120px;
             }
             
             .main-header {
                 padding: 30px 20px;
+                border-radius: 0;
+                margin: -20px -15px 20px;
             }
             
             .logo-title {
@@ -990,11 +1067,20 @@
             .print-content {
                 padding: 20px;
             }
+            
+            .print-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
         @media (max-width: 480px) {
             .floating-controls {
-                bottom: 15px;
+                bottom: max(15px, var(--safe-bottom));
                 right: 15px;
             }
             
@@ -1002,12 +1088,26 @@
                 width: 55px;
                 height: 55px;
                 font-size: 1.3rem;
+                right: 15px;
+                bottom: max(15px, var(--safe-bottom));
+            }
+            
+            .control-buttons {
+                right: 15px;
+                bottom: calc(max(15px, var(--safe-bottom)) + 75px);
             }
             
             .control-btn {
                 width: 45px;
                 height: 45px;
                 font-size: 1.1rem;
+            }
+            
+            .save-indicator {
+                bottom: calc(max(15px, var(--safe-bottom)) + 100px);
+                right: 15px;
+                font-size: 0.75rem;
+                padding: 6px 10px;
             }
             
             .main-header {
@@ -1021,6 +1121,8 @@
             .date-display {
                 padding: 12px 20px;
                 font-size: 1rem;
+                width: 100%;
+                justify-content: center;
             }
             
             .stat-number {
@@ -1056,28 +1158,28 @@
             
             .notes-section {
                 padding: 25px 20px;
-            }
-            
-            .print-actions {
-                flex-direction: column;
-            }
-            
-            .action-btn {
-                width: 100%;
-                justify-content: center;
+                margin-left: -15px;
+                margin-right: -15px;
+                border-radius: 0;
             }
         }
 
-        /* ===== UTILITY CLASSES ===== */
-        .completed .activity-time,
-        .completed .activity-name,
-        .completed .activity-details {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
-
-        .completed .checkmark {
-            animation: pulse 0.5s ease;
+        @media (max-width: 360px) {
+            .floating-ball {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .control-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .title-group h1 {
+                font-size: 1.6rem;
+            }
         }
 
         /* ===== PRINT STYLES ===== */
@@ -1092,7 +1194,8 @@
             }
             
             .floating-controls,
-            .floating-controls * {
+            .save-indicator,
+            .print-modal {
                 display: none !important;
             }
             
@@ -1113,9 +1216,11 @@
             
             .stats-bar,
             .current-time-container,
-            .progress-section {
+            .progress-section,
+            .day-section {
                 box-shadow: none;
                 border: 1px solid #ddd;
+                break-inside: avoid;
             }
             
             .activity-check {
@@ -1123,54 +1228,69 @@
                 appearance: checkbox;
                 position: static;
                 margin-right: 10px;
+                visibility: visible !important;
+                width: auto;
+                height: auto;
+                opacity: 1;
             }
             
-            .checkmark {
-                display: none;
+            .checkmark,
+            .status-indicator,
+            .activity-icon,
+            .floating-ball,
+            .control-buttons {
+                display: none !important;
             }
             
-            .status-indicator {
-                display: none;
-            }
-            
-            .activity-icon {
-                display: none;
-            }
-            
-            .destination-image {
-                height: 150px;
+            /* Hide based on selected option */
+            .day-section[data-print-hide="true"],
+            .activity-item[data-print-hide="true"] {
+                display: none !important;
             }
             
             /* Page breaks */
-            .day-section {
+            .day-section,
+            .activity-item {
                 page-break-inside: avoid;
             }
             
-            .activity-item {
-                page-break-inside: avoid;
+            @page {
+                margin: 1cm;
+            }
+            
+            .print-header-only {
+                text-align: center;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #000;
             }
         }
     </style>
 </head>
 <body>
-    <!-- FLOATING BALL CONTROLS -->
+    <!-- ENHANCED FLOATING CONTROLS - NOW VISIBLE ON MOBILE -->
     <div class="floating-controls">
-        <div class="floating-ball" id="floatingBall" draggable="true">
-            <i class="fas fa-plus"></i>
+        <div class="floating-ball" id="floatingBall">
+            <div class="ball-pulse"></div>
+            <i class="fas fa-bars"></i>
         </div>
         <div class="control-buttons" id="controlButtons">
             <button class="control-btn reset" onclick="resetAll()">
                 <i class="fas fa-redo"></i>
                 <span class="btn-tooltip">Reset Semua</span>
             </button>
-            <button class="control-btn save" onclick="saveProgress()">
+            <button class="control-btn save" onclick="manualSave()">
                 <i class="fas fa-save"></i>
                 <span class="btn-tooltip">Simpan Progress</span>
             </button>
             <button class="control-btn print" onclick="showPrintModal()">
                 <i class="fas fa-print"></i>
-                <span class="btn-tooltip">Cetak Jadwal</span>
+                <span class="btn-tooltip">Cetak Laporan</span>
             </button>
+        </div>
+        <div class="save-indicator" id="saveIndicator">
+            <i class="fas fa-check-circle"></i>
+            <span>Progress Disimpan!</span>
         </div>
     </div>
 
@@ -1180,7 +1300,7 @@
             <div class="print-header">
                 <div class="print-title">
                     <i class="fas fa-print"></i>
-                    Cetak Jadwal Tour
+                    Cetak Laporan BOCASA Trip
                 </div>
                 <button class="close-print" onclick="closePrintModal()">
                     <i class="fas fa-times"></i>
@@ -1193,7 +1313,7 @@
                         <div class="option-title">Cetak Semua Jadwal</div>
                         <div class="option-desc">Semua aktivitas dari hari 1 dan 2</div>
                     </div>
-                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                    <i class="fas fa-check-circle" style="color: var(--secondary);"></i>
                 </div>
                 <div class="print-option" onclick="selectPrintOption(this, 'day1')">
                     <i class="fas fa-sun"></i>
@@ -1238,12 +1358,12 @@
                         <i class="fas fa-mountain-sun"></i>
                     </div>
                     <div class="title-group">
-                        <h1>Jadwal Tour Bogor</h1>
-                        <p>Telaga Saat & Curug Batu Cisereun</p>
+                        <h1>BOCASA Trip</h1>
+                        <p>Bogor – Curug – Saat | 10-11 Januari 2025</p>
                     </div>
                 </div>
                 <div class="date-display">
-                    <i class="fas fa-calendar-day"></i>
+                    <i class="far fa-calendar"></i>
                     <span>10 - 11 Januari 2025</span>
                 </div>
             </div>
@@ -1268,7 +1388,7 @@
         <!-- CURRENT TIME -->
         <div class="current-time-container">
             <div class="current-time">
-                <i class="fas fa-clock"></i>
+                <i class="far fa-clock"></i>
                 <span id="currentTime">Memuat waktu...</span>
             </div>
         </div>
@@ -1276,7 +1396,7 @@
         <!-- DESTINATION CARDS -->
         <div class="destinations-grid">
             <div class="destination-card">
-                <img src="https://turisian.com/wp-content/uploads/2023/09/IMG_1303.jpeg" alt="Telaga Saat" class="destination-image">
+                <img src="https://turisian.com/wp-content/uploads/2023/09/IMG_1303.jpeg" alt="Telaga Saat" class="destination-image" loading="lazy">
                 <div class="destination-info">
                     <div class="destination-name">
                         <i class="fas fa-water"></i> Telaga Saat
@@ -1286,7 +1406,7 @@
                 </div>
             </div>
             <div class="destination-card">
-                <img src="https://img.okezone.com/okz/500/library/images/2023/10/03/073cxkqbelphgvwlgt1j_19551.jpg" alt="Curug Batu Cisereun" class="destination-image">
+                <img src="https://img.okezone.com/okz/500/library/images/2023/10/03/073cxkqbelphgvwlgt1j_19551.jpg" alt="Curug Batu Cisereun" class="destination-image" loading="lazy">
                 <div class="destination-info">
                     <div class="destination-name">
                         <i class="fas fa-mountain"></i> Curug Batu Cisereun
@@ -1314,29 +1434,25 @@
 
         <!-- SCHEDULE - HARI 1 -->
         <div class="schedule-container">
-            <div class="day-section">
+            <div class="day-section" id="day1-section">
                 <div class="day-header">
                     <div class="day-title">
                         <i class="fas fa-sun"></i> Hari 1 - Berangkat (10 Januari)
                     </div>
                     <div class="day-date">10 Jan 2025</div>
                 </div>
-                <div class="activity-list" id="day1-activities">
-                    <!-- Activities populated by JavaScript -->
-                </div>
+                <div class="activity-list" id="day1-activities"></div>
             </div>
 
             <!-- SCHEDULE - HARI 2 -->
-            <div class="day-section">
+            <div class="day-section" id="day2-section">
                 <div class="day-header">
                     <div class="day-title">
                         <i class="fas fa-moon"></i> Hari 2 - Pulang (11 Januari)
                     </div>
                     <div class="day-date">11 Jan 2025</div>
                 </div>
-                <div class="activity-list" id="day2-activities">
-                    <!-- Activities populated by JavaScript -->
-                </div>
+                <div class="activity-list" id="day2-activities"></div>
             </div>
         </div>
 
@@ -1358,7 +1474,7 @@
 
         <!-- FOOTER -->
         <footer class="main-footer">
-            <p>Jadwal Tour Bogor - Telaga Saat & Curug Batu Cisereun</p>
+            <p>BOCASA Trip - Bogor – Curug – Saat</p>
             <p>10-11 Januari 2025 | Dibuat dengan <i class="fas fa-heart"></i> untuk perjalanan menyenangkan</p>
         </footer>
     </div>
@@ -1529,106 +1645,197 @@
         let completedActivities = new Set();
         const totalActivities = scheduleData.day1.length + scheduleData.day2.length;
         let selectedPrintOption = 'all';
+        let autoSaveTimer = null;
+        let isAutoSaving = false;
+        let isDragging = false;
 
-        // ===== FLOATING BALL DRAG & DROP =====
+        // ===== DOM ELEMENTS =====
         const floatingBall = document.getElementById('floatingBall');
         const controlButtons = document.getElementById('controlButtons');
-        let isDragging = false;
-        let currentX;
-        let currentY;
-        let initialX;
-        let initialY;
-        let xOffset = 0;
-        let yOffset = 0;
-
-        floatingBall.addEventListener('mousedown', dragStart);
-        floatingBall.addEventListener('touchstart', dragStart);
-
-        function dragStart(e) {
-            if (e.type === "touchstart") {
-                initialX = e.touches[0].clientX - xOffset;
-                initialY = e.touches[0].clientY - yOffset;
-            } else {
-                initialX = e.clientX - xOffset;
-                initialY = e.clientY - yOffset;
-            }
-
-            if (e.target === floatingBall) {
-                isDragging = true;
-            }
-        }
-
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('touchmove', drag);
-
-        function drag(e) {
-            if (isDragging) {
-                e.preventDefault();
-                
-                if (e.type === "touchmove") {
-                    currentX = e.touches[0].clientX - initialX;
-                    currentY = e.touches[0].clientY - initialY;
-                } else {
-                    currentX = e.clientX - initialX;
-                    currentY = e.clientY - initialY;
-                }
-
-                xOffset = currentX;
-                yOffset = currentY;
-
-                setTranslate(currentX, currentY, floatingBall);
-            }
-        }
-
-        document.addEventListener('mouseup', dragEnd);
-        document.addEventListener('touchend', dragEnd);
-
-        function dragEnd() {
-            initialX = currentX;
-            initialY = currentY;
-            isDragging = false;
+        const saveIndicator = document.getElementById('saveIndicator');
+        const printModal = document.getElementById('printModal');
+        
+        // ===== MOBILE-FRIENDLY DRAG & DROP =====
+        function setupMobileDragAndDrop() {
+            // Touch events for mobile
+            floatingBall.addEventListener('touchstart', handleTouchStart, { passive: false });
+            floatingBall.addEventListener('touchmove', handleTouchMove, { passive: false });
+            floatingBall.addEventListener('touchend', handleTouchEnd);
             
-            // Save position to localStorage
-            saveFloatingBallPosition();
-        }
-
-        function setTranslate(xPos, yPos, el) {
-            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
-        }
-
-        // Save and load floating ball position
-        function saveFloatingBallPosition() {
-            const position = {
-                x: xOffset,
-                y: yOffset,
-                timestamp: new Date().toISOString()
-            };
-            localStorage.setItem('floatingBallPosition', JSON.stringify(position));
-        }
-
-        function loadFloatingBallPosition() {
-            const saved = localStorage.getItem('floatingBallPosition');
-            if (saved) {
-                try {
-                    const position = JSON.parse(saved);
-                    xOffset = position.x || 0;
-                    yOffset = position.y || 0;
-                    setTranslate(xOffset, yOffset, floatingBall);
-                } catch (e) {
-                    console.error('Error loading floating ball position:', e);
+            // Mouse events for desktop
+            floatingBall.addEventListener('mousedown', handleMouseDown);
+            
+            // Prevent default touch behaviors
+            floatingBall.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    e.preventDefault();
                 }
+            }, { passive: false });
+        }
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let ballStartX = 0;
+        let ballStartY = 0;
+
+        function handleTouchStart(e) {
+            if (e.touches.length !== 1) return;
+            
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            
+            const rect = floatingBall.getBoundingClientRect();
+            ballStartX = rect.left;
+            ballStartY = rect.top;
+            
+            isDragging = true;
+            floatingBall.style.transition = 'none';
+            floatingBall.style.zIndex = '10001';
+            
+            // Prevent scrolling while dragging
+            e.preventDefault();
+        }
+
+        function handleTouchMove(e) {
+            if (!isDragging || e.touches.length !== 1) return;
+            
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
+            
+            let newX = ballStartX + deltaX;
+            let newY = ballStartY + deltaY;
+            
+            // Boundary checks
+            const maxX = window.innerWidth - floatingBall.offsetWidth;
+            const maxY = window.innerHeight - floatingBall.offsetHeight;
+            
+            newX = Math.max(10, Math.min(newX, maxX - 10));
+            newY = Math.max(10, Math.min(newY, maxY - 10));
+            
+            floatingBall.style.left = `${newX}px`;
+            floatingBall.style.top = `${newY}px`;
+            floatingBall.style.transform = 'translate3d(0, 0, 0) rotate(45deg)';
+            
+            e.preventDefault();
+        }
+
+        function handleTouchEnd() {
+            if (!isDragging) return;
+            
+            isDragging = false;
+            floatingBall.style.transition = 'var(--transition)';
+            floatingBall.style.transform = 'translate3d(0, 0, 0)';
+            floatingBall.style.zIndex = '10000';
+            
+            saveBallPosition();
+            debouncedAutoSave();
+        }
+
+        function handleMouseDown(e) {
+            touchStartX = e.clientX;
+            touchStartY = e.clientY;
+            
+            const rect = floatingBall.getBoundingClientRect();
+            ballStartX = rect.left;
+            ballStartY = rect.top;
+            
+            isDragging = true;
+            floatingBall.style.transition = 'none';
+            
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+            
+            e.preventDefault();
+        }
+
+        function handleMouseMove(e) {
+            if (!isDragging) return;
+            
+            const deltaX = e.clientX - touchStartX;
+            const deltaY = e.clientY - touchStartY;
+            
+            let newX = ballStartX + deltaX;
+            let newY = ballStartY + deltaY;
+            
+            // Boundary checks
+            const maxX = window.innerWidth - floatingBall.offsetWidth;
+            const maxY = window.innerHeight - floatingBall.offsetHeight;
+            
+            newX = Math.max(10, Math.min(newX, maxX - 10));
+            newY = Math.max(10, Math.min(newY, maxY - 10));
+            
+            floatingBall.style.left = `${newX}px`;
+            floatingBall.style.top = `${newY}px`;
+            floatingBall.style.transform = 'translate3d(0, 0, 0) rotate(45deg)';
+        }
+
+        function handleMouseUp() {
+            if (!isDragging) return;
+            
+            isDragging = false;
+            floatingBall.style.transition = 'var(--transition)';
+            floatingBall.style.transform = 'translate3d(0, 0, 0)';
+            
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+            
+            saveBallPosition();
+            debouncedAutoSave();
+        }
+
+        function saveBallPosition() {
+            const rect = floatingBall.getBoundingClientRect();
+            const position = {
+                x: rect.left,
+                y: rect.top,
+                timestamp: Date.now()
+            };
+            
+            try {
+                localStorage.setItem('bocasa_ball_position', JSON.stringify(position));
+            } catch (e) {
+                console.error('Error saving ball position:', e);
+            }
+        }
+
+        function loadBallPosition() {
+            try {
+                const saved = localStorage.getItem('bocasa_ball_position');
+                if (saved) {
+                    const { x, y } = JSON.parse(saved);
+                    
+                    // Validate position is within screen bounds
+                    const maxX = window.innerWidth - floatingBall.offsetWidth;
+                    const maxY = window.innerHeight - floatingBall.offsetHeight;
+                    
+                    const validX = Math.max(10, Math.min(x, maxX - 10));
+                    const validY = Math.max(10, Math.min(y, maxY - 10));
+                    
+                    floatingBall.style.left = `${validX}px`;
+                    floatingBall.style.top = `${validY}px`;
+                    floatingBall.style.position = 'fixed';
+                }
+            } catch (e) {
+                console.error('Error loading ball position:', e);
             }
         }
 
         // ===== FLOATING BALL TOGGLE =====
         floatingBall.addEventListener('click', function(e) {
-            if (!isDragging) {
-                floatingBall.classList.toggle('active');
-                controlButtons.classList.toggle('active');
+            // Only toggle if not dragging and it's a simple tap
+            if (!isDragging && e.type === 'click') {
+                setTimeout(() => {
+                    if (!isDragging) {
+                        floatingBall.classList.toggle('active');
+                        controlButtons.classList.toggle('active');
+                    }
+                }, 100);
             }
         });
 
-        // Close buttons when clicking outside
+        // Close floating buttons when clicking elsewhere
         document.addEventListener('click', function(e) {
             if (!floatingBall.contains(e.target) && !controlButtons.contains(e.target)) {
                 floatingBall.classList.remove('active');
@@ -1637,8 +1844,6 @@
         });
 
         // ===== PRINT MODAL FUNCTIONS =====
-        const printModal = document.getElementById('printModal');
-
         function showPrintModal() {
             printModal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1647,21 +1852,13 @@
 
         function closePrintModal() {
             printModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function closeFloatingButtons() {
-            floatingBall.classList.remove('active');
-            controlButtons.classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         function selectPrintOption(element, option) {
-            // Remove active class from all options
             document.querySelectorAll('.print-option').forEach(opt => {
                 opt.classList.remove('active');
             });
-            
-            // Add active class to selected option
             element.classList.add('active');
             selectedPrintOption = option;
         }
@@ -1669,167 +1866,228 @@
         function doPrint() {
             closePrintModal();
             
-            // Prepare print content
-            const printStyles = `
-                <style>
-                    @media print {
-                        body * {
-                            visibility: hidden;
+            // Prepare for printing
+            const day1Section = document.getElementById('day1-section');
+            const day2Section = document.getElementById('day2-section');
+            const activities = document.querySelectorAll('.activity-item');
+            
+            // Reset attributes
+            day1Section.removeAttribute('data-print-hide');
+            day2Section.removeAttribute('data-print-hide');
+            activities.forEach(activity => activity.removeAttribute('data-print-hide'));
+            
+            // Apply filters
+            switch (selectedPrintOption) {
+                case 'day1':
+                    day2Section.setAttribute('data-print-hide', 'true');
+                    break;
+                case 'day2':
+                    day1Section.setAttribute('data-print-hide', 'true');
+                    break;
+                case 'completed':
+                    activities.forEach(activity => {
+                        if (!activity.classList.contains('completed')) {
+                            activity.setAttribute('data-print-hide', 'true');
                         }
-                        
-                        .main-content,
-                        .main-content * {
-                            visibility: visible;
-                        }
-                        
-                        .floating-controls,
-                        .floating-controls * {
-                            display: none !important;
-                        }
-                        
-                        .main-content {
-                            position: absolute;
-                            left: 0;
-                            top: 0;
-                            width: 100%;
-                            padding: 0;
-                            margin: 0;
-                        }
-                        
-                        .main-header {
-                            box-shadow: none;
-                            border-radius: 0;
-                            margin-bottom: 20px;
-                        }
-                        
-                        .stats-bar,
-                        .current-time-container,
-                        .progress-section {
-                            box-shadow: none;
-                            border: 1px solid #ddd;
-                        }
-                        
-                        .activity-check {
-                            -webkit-appearance: checkbox;
-                            appearance: checkbox;
-                            position: static;
-                            margin-right: 10px;
-                        }
-                        
-                        .checkmark {
-                            display: none;
-                        }
-                        
-                        .status-indicator {
-                            display: none;
-                        }
-                        
-                        .activity-icon {
-                            display: none;
-                        }
-                        
-                        .destination-image {
-                            height: 150px;
-                        }
-                        
-                        /* Hide elements based on selected option */
-                        ${selectedPrintOption === 'day1' ? '.day-section:nth-child(2) { display: none; }' : ''}
-                        ${selectedPrintOption === 'day2' ? '.day-section:nth-child(1) { display: none; }' : ''}
-                        ${selectedPrintOption === 'completed' ? '.activity-item:not(.completed) { display: none; }' : ''}
-                        
-                        /* Page breaks */
-                        .day-section {
-                            page-break-inside: avoid;
-                        }
-                        
-                        .activity-item {
-                            page-break-inside: avoid;
-                        }
-                    }
-                </style>
+                    });
+                    break;
+            }
+            
+            // Add print header
+            const printHeader = document.createElement('div');
+            printHeader.className = 'print-header-only';
+            printHeader.innerHTML = `
+                <h1>Laporan BOCASA Trip</h1>
+                <div class="print-date">${new Date().toLocaleDateString('id-ID', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })}</div>
             `;
             
-            // Add print styles to document
-            const styleSheet = document.createElement("style");
-            styleSheet.type = "text/css";
-            styleSheet.innerText = printStyles;
-            document.head.appendChild(styleSheet);
+            const mainContent = document.querySelector('.main-content');
+            mainContent.insertBefore(printHeader, mainContent.firstChild);
             
             // Trigger print
             setTimeout(() => {
                 window.print();
                 
-                // Remove the style after printing
+                // Cleanup
                 setTimeout(() => {
-                    document.head.removeChild(styleSheet);
+                    printHeader.remove();
+                    day1Section.removeAttribute('data-print-hide');
+                    day2Section.removeAttribute('data-print-hide');
+                    activities.forEach(activity => activity.removeAttribute('data-print-hide'));
                 }, 100);
             }, 100);
         }
 
+        // ===== AUTO-SAVE SYSTEM =====
+        function debouncedAutoSave() {
+            if (autoSaveTimer) clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(() => {
+                if (!isAutoSaving) {
+                    autoSaveProgress();
+                }
+            }, 1000);
+        }
+
+        function autoSaveProgress() {
+            if (isAutoSaving) return;
+            
+            isAutoSaving = true;
+            saveProgress();
+            
+            // Quick indicator for auto-save (shorter duration)
+            saveIndicator.classList.add('show');
+            setTimeout(() => {
+                saveIndicator.classList.remove('show');
+                isAutoSaving = false;
+            }, 500);
+        }
+
+        function manualSave() {
+            saveProgress();
+            saveIndicator.classList.add('show');
+            setTimeout(() => {
+                saveIndicator.classList.remove('show');
+            }, 2000);
+            closeFloatingButtons();
+        }
+
+        function saveProgress() {
+            const progress = {
+                completed: Array.from(completedActivities),
+                timestamp: Date.now(),
+                version: '1.0'
+            };
+            
+            try {
+                localStorage.setItem('bocasa_trip_progress', JSON.stringify(progress));
+                localStorage.setItem('bocasa_last_save', Date.now().toString());
+            } catch (e) {
+                console.error('Error saving progress:', e);
+            }
+        }
+
+        function loadProgress() {
+            try {
+                const saved = localStorage.getItem('bocasa_trip_progress');
+                if (saved) {
+                    const { completed } = JSON.parse(saved);
+                    if (Array.isArray(completed)) {
+                        completedActivities = new Set(completed);
+                        
+                        completedActivities.forEach(id => {
+                            const checkbox = document.getElementById(id);
+                            if (checkbox) {
+                                checkbox.checked = true;
+                                checkbox.closest('.activity-item')?.classList.add('completed');
+                            }
+                        });
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading progress:', e);
+                completedActivities = new Set();
+            }
+        }
+
         // ===== INITIALIZE APP =====
-        document.addEventListener('DOMContentLoaded', function() {
+        function initApp() {
             renderSchedule();
             loadProgress();
-            loadFloatingBallPosition();
+            loadBallPosition();
+            setupMobileDragAndDrop();
+            
             updateCurrentTime();
             setInterval(updateCurrentTime, 1000);
-            updateActivityStatus();
-            setInterval(updateActivityStatus, 30000);
+            
             updateProgress();
+            updateActivityStatus();
+            setInterval(updateActivityStatus, 60000);
+            
             document.getElementById('total-count').textContent = totalActivities;
-        });
+            
+            // Setup auto-save on various events
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) autoSaveProgress();
+            });
+            
+            window.addEventListener('beforeunload', autoSaveProgress);
+            
+            // Adjust ball position on resize
+            window.addEventListener('resize', () => {
+                loadBallPosition();
+            });
+            
+            // iOS specific fixes
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                document.body.style.cursor = 'pointer';
+                document.querySelectorAll('button, .checkmark').forEach(el => {
+                    el.style.cursor = 'pointer';
+                });
+                
+                // Prevent elastic scrolling on iOS
+                document.body.addEventListener('touchmove', (e) => {
+                    if (isDragging) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+            }
+        }
 
-        // ===== RENDER SCHEDULE =====
+        // ===== SCHEDULE RENDERING =====
         function renderSchedule() {
             const day1Container = document.getElementById('day1-activities');
             const day2Container = document.getElementById('day2-activities');
             
-            day1Container.innerHTML = '';
-            day2Container.innerHTML = '';
+            day1Container.innerHTML = scheduleData.day1.map((activity, index) => 
+                createActivityHTML(activity, index, 1)
+            ).join('');
             
-            scheduleData.day1.forEach((activity, index) => {
-                const activityEl = createActivityElement(activity, index, 1);
-                day1Container.appendChild(activityEl);
-            });
+            day2Container.innerHTML = scheduleData.day2.map((activity, index) => 
+                createActivityHTML(activity, index, 2)
+            ).join('');
             
-            scheduleData.day2.forEach((activity, index) => {
-                const activityEl = createActivityElement(activity, index, 2);
-                day2Container.appendChild(activityEl);
+            // Attach event listeners to checkboxes
+            document.querySelectorAll('.activity-check').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    toggleActivity(this.dataset.id);
+                });
             });
         }
 
-        function createActivityElement(activity, index, day) {
-            const div = document.createElement('div');
-            div.className = 'activity-item';
-            div.style.setProperty('--item-index', index);
-            
+        function createActivityHTML(activity, index, day) {
             const tagClass = `tag-${activity.tag}`;
+            const tagIcon = getTagIcon(activity.tag);
             
-            div.innerHTML = `
-                <div class="check-container">
-                    <input type="checkbox" class="activity-check" id="${activity.id}" 
-                           data-id="${activity.id}" onchange="toggleActivity('${activity.id}')">
-                    <label class="checkmark" for="${activity.id}"></label>
-                </div>
-                <div class="status-indicator status-upcoming" id="status-${activity.id}"></div>
-                <div class="activity-content">
-                    <div class="activity-time">
-                        <i class="fas fa-clock"></i> ${activity.time}
+            return `
+                <div class="activity-item" style="--item-index: ${index};">
+                    <div class="check-container">
+                        <input type="checkbox" class="activity-check" id="${activity.id}" 
+                               data-id="${activity.id}">
+                        <label class="checkmark" for="${activity.id}"></label>
                     </div>
-                    <div class="activity-name">${activity.name}</div>
-                    <div class="activity-details">${activity.details}</div>
-                    <div class="activity-tags">
-                        <span class="activity-tag ${tagClass}">
-                            <i class="fas fa-${getTagIcon(activity.tag)}"></i> ${activity.tagText}
-                        </span>
+                    <div class="status-indicator status-upcoming" id="status-${activity.id}"></div>
+                    <div class="activity-content">
+                        <div class="activity-time">
+                            <i class="far fa-clock"></i> ${activity.time}
+                        </div>
+                        <div class="activity-name">${activity.name}</div>
+                        <div class="activity-details">${activity.details}</div>
+                        <div class="activity-tags">
+                            <span class="activity-tag ${tagClass}">
+                                <i class="fas fa-${tagIcon}"></i> ${activity.tagText}
+                            </span>
+                        </div>
                     </div>
-                </div>
-                <div class="activity-icon">
-                    <i class="${activity.icon}"></i>
+                    <div class="activity-icon">
+                        <i class="${activity.icon}"></i>
+                    </div>
                 </div>
             `;
-            
-            return div;
         }
 
         function getTagIcon(tag) {
@@ -1845,7 +2103,7 @@
             return icons[tag] || 'circle';
         }
 
-        // ===== TOGGLE ACTIVITY =====
+        // ===== ACTIVITY MANAGEMENT =====
         function toggleActivity(activityId) {
             const checkbox = document.getElementById(activityId);
             const activityItem = checkbox.closest('.activity-item');
@@ -1861,27 +2119,42 @@
             
             updateProgress();
             updateActivityStatus();
-            startAutoSave();
+            debouncedAutoSave();
         }
 
-        // ===== UPDATE PROGRESS =====
+        // ===== PROGRESS UPDATES =====
         function updateProgress() {
             const completedCount = completedActivities.size;
             const progressPercent = Math.round((completedCount / totalActivities) * 100);
             
-            document.getElementById('completed-count').textContent = completedCount;
-            document.getElementById('progress-percent').textContent = `${progressPercent}%`;
-            document.getElementById('progress-text').textContent = `${progressPercent}%`;
+            // Update DOM elements
+            const elements = {
+                'completed-count': completedCount,
+                'progress-percent': `${progressPercent}%`,
+                'progress-text': `${progressPercent}%`
+            };
             
-            document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+            Object.entries(elements).forEach(([id, value]) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value;
+            });
             
-            document.getElementById('completed-text').textContent = 
-                `${completedCount} aktivitas selesai`;
-            document.getElementById('remaining-text').textContent = 
-                `${totalActivities - completedCount} aktivitas tersisa`;
+            // Update progress bar
+            const progressFill = document.getElementById('progress-fill');
+            if (progressFill) {
+                progressFill.style.width = `${progressPercent}%`;
+            }
+            
+            // Update labels
+            const completedText = document.getElementById('completed-text');
+            const remainingText = document.getElementById('remaining-text');
+            if (completedText && remainingText) {
+                completedText.textContent = `${completedCount} aktivitas selesai`;
+                remainingText.textContent = `${totalActivities - completedCount} aktivitas tersisa`;
+            }
         }
 
-        // ===== UPDATE ACTIVITY STATUS =====
+        // ===== ACTIVITY STATUS UPDATES =====
         function updateActivityStatus() {
             const now = new Date();
             const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -1893,40 +2166,33 @@
 
         function checkActivitiesForDay(activities, currentTime, isToday) {
             activities.forEach(activity => {
-                const activityEl = document.getElementById(activity.id)?.closest('.activity-item');
-                const statusEl = document.getElementById(`status-${activity.id}`);
                 const checkbox = document.getElementById(activity.id);
+                if (!checkbox) return;
                 
-                if (!activityEl || !statusEl || !checkbox) return;
+                const activityEl = checkbox.closest('.activity-item');
+                const statusEl = document.getElementById(`status-${activity.id}`);
                 
                 activityEl.classList.remove('active-now', 'upcoming');
                 statusEl.className = 'status-indicator';
                 
+                // Parse activity time
                 const timeMatch = activity.time.match(/(\d{1,2}):(\d{2})/g);
                 if (!timeMatch) return;
                 
                 const startTime = parseTime(timeMatch[0]);
                 const endTime = timeMatch[1] ? parseTime(timeMatch[1]) : startTime + 60;
                 
-                if (!isToday || checkbox.checked) {
-                    if (checkbox.checked) {
-                        statusEl.classList.add('status-completed');
-                    } else {
-                        statusEl.classList.add('status-upcoming');
-                    }
+                // Update status
+                if (checkbox.checked) {
+                    statusEl.classList.add('status-completed');
+                } else if (isToday && currentTime >= startTime && currentTime < endTime) {
+                    activityEl.classList.add('active-now');
+                    statusEl.classList.add('status-now');
+                } else if (!isToday || currentTime < startTime) {
+                    activityEl.classList.add('upcoming');
+                    statusEl.classList.add('status-upcoming');
                 } else {
-                    if (currentTime >= startTime && currentTime < endTime) {
-                        activityEl.classList.add('active-now');
-                        statusEl.classList.add('status-now');
-                    } else if (currentTime < startTime) {
-                        activityEl.classList.add('upcoming');
-                        statusEl.classList.add('status-upcoming');
-                    } else if (currentTime >= endTime && !checkbox.checked) {
-                        activityEl.classList.add('upcoming');
-                        statusEl.classList.add('status-upcoming');
-                    } else if (checkbox.checked) {
-                        statusEl.classList.add('status-completed');
-                    }
+                    statusEl.classList.add('status-upcoming');
                 }
             });
         }
@@ -1946,99 +2212,42 @@
                 day: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit',
-                second: '2-digit'
+                second: '2-digit',
+                timeZone: 'Asia/Jakarta'
             };
             
             const timeString = now.toLocaleDateString('id-ID', options);
-            document.getElementById('currentTime').innerHTML = 
-                `<i class="fas fa-clock"></i> ${timeString}`;
-        }
-
-        // ===== SAVE & LOAD PROGRESS =====
-        function saveProgress() {
-            const progress = {
-                completed: Array.from(completedActivities),
-                timestamp: new Date().toISOString()
-            };
-            
-            localStorage.setItem('tourBogorProgress', JSON.stringify(progress));
-            showNotification('Progress berhasil disimpan!', 'success');
-            closeFloatingButtons();
-        }
-
-        function loadProgress() {
-            const saved = localStorage.getItem('tourBogorProgress');
-            if (saved) {
-                try {
-                    const progress = JSON.parse(saved);
-                    completedActivities = new Set(progress.completed || []);
-                    
-                    completedActivities.forEach(id => {
-                        const checkbox = document.getElementById(id);
-                        if (checkbox) {
-                            checkbox.checked = true;
-                            checkbox.closest('.activity-item')?.classList.add('completed');
-                        }
-                    });
-                    
-                    updateProgress();
-                    updateActivityStatus();
-                } catch (e) {
-                    console.error('Error loading progress:', e);
-                }
+            const currentTimeEl = document.getElementById('currentTime');
+            if (currentTimeEl) {
+                currentTimeEl.innerHTML = timeString;
             }
+        }
+
+        // ===== UTILITY FUNCTIONS =====
+        function closeFloatingButtons() {
+            floatingBall.classList.remove('active');
+            controlButtons.classList.remove('active');
         }
 
         function resetAll() {
             closeFloatingButtons();
-            setTimeout(() => {
-                if (confirm('Yakin ingin mereset semua checklist? Progress yang disimpan akan hilang.')) {
-                    completedActivities.clear();
-                    
-                    document.querySelectorAll('.activity-check').forEach(checkbox => {
-                        checkbox.checked = false;
-                        checkbox.closest('.activity-item')?.classList.remove('completed');
-                    });
-                    
-                    localStorage.removeItem('tourBogorProgress');
-                    updateProgress();
-                    updateActivityStatus();
-                    showNotification('Semua checklist telah direset', 'info');
-                }
-            }, 300);
+            
+            if (confirm('Yakin ingin mereset semua checklist? Progress yang disimpan akan hilang.')) {
+                completedActivities.clear();
+                
+                document.querySelectorAll('.activity-check').forEach(checkbox => {
+                    checkbox.checked = false;
+                    checkbox.closest('.activity-item')?.classList.remove('completed');
+                });
+                
+                localStorage.removeItem('bocasa_trip_progress');
+                updateProgress();
+                updateActivityStatus();
+            }
         }
 
-        // ===== AUTO-SAVE =====
-        let autoSaveTimer;
-        function startAutoSave() {
-            if (autoSaveTimer) clearTimeout(autoSaveTimer);
-            autoSaveTimer = setTimeout(() => {
-                saveProgress();
-            }, 2000);
-        }
-
-        // ===== NOTIFICATION =====
-        function showNotification(message, type) {
-            const existing = document.querySelector('.notification');
-            if (existing) existing.remove();
-            
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); 
-                     background: ${type === 'success' ? '#10b981' : '#3b82f6'}; 
-                     color: white; padding: 15px 25px; border-radius: var(--radius-sm); 
-                     box-shadow: var(--shadow-lg); z-index: 2000; animation: slideIn 0.3s ease;">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i> ${message}
-                </div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
+        // ===== INITIALIZE ON LOAD =====
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
